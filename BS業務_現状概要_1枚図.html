@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>BS業務 現状概要</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+    font-size: 11px;
+    background: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .page {
+    width: 297mm;
+    min-height: 210mm;
+    background: white;
+    padding: 12mm 14mm;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+
+  /* ヘッダー */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 3px solid #1a3a5c;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+  }
+  .header h1 {
+    font-size: 18px;
+    color: #1a3a5c;
+    font-weight: bold;
+  }
+  .header .meta {
+    font-size: 10px;
+    color: #666;
+    text-align: right;
+    line-height: 1.6;
+  }
+
+  /* グリッドレイアウト */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 8px;
+  }
+
+  .card {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .card-header {
+    background: #1a3a5c;
+    color: white;
+    font-weight: bold;
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+  .card-header.green  { background: #2e7d32; }
+  .card-header.orange { background: #e65100; }
+  .card-header.navy   { background: #1a3a5c; }
+  .card-header.purple { background: #4a235a; }
+  .card-header.red    { background: #b71c1c; }
+
+  .card-body {
+    padding: 6px 8px;
+  }
+
+  /* 体制カード（1列目） */
+  .span-1 { grid-column: span 1; }
+  .span-2 { grid-column: span 2; }
+  .span-3 { grid-column: span 3; }
+
+  /* テーブル */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10.5px;
+  }
+  th {
+    background: #e8edf2;
+    border: 1px solid #bbb;
+    padding: 3px 5px;
+    text-align: center;
+    font-weight: bold;
+  }
+  td {
+    border: 1px solid #bbb;
+    padding: 3px 5px;
+    vertical-align: top;
+  }
+  td.center { text-align: center; }
+  td.num { text-align: center; font-weight: bold; color: #1a3a5c; }
+  td.na  { text-align: center; color: #aaa; }
+
+  /* フロー */
+  .flow {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2px;
+    padding: 4px 0;
+  }
+  .flow-step {
+    background: #e8edf2;
+    border: 1px solid #9ab;
+    border-radius: 3px;
+    padding: 3px 7px;
+    font-size: 10px;
+    white-space: nowrap;
+  }
+  .flow-arrow {
+    color: #1a3a5c;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 0 2px;
+  }
+
+  /* バッジ */
+  .badge {
+    display: inline-block;
+    background: #1a3a5c;
+    color: white;
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-size: 9px;
+    margin-right: 3px;
+  }
+  .badge.green  { background: #2e7d32; }
+  .badge.orange { background: #e65100; }
+
+  /* 課題リスト */
+  .issue-list {
+    list-style: none;
+    padding: 0;
+  }
+  .issue-list li {
+    padding: 2px 0;
+    border-bottom: 1px dashed #ddd;
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+  }
+  .issue-list li:last-child { border-bottom: none; }
+  .issue-num {
+    min-width: 16px;
+    font-size: 9px;
+    color: #b71c1c;
+    font-weight: bold;
+  }
+
+  /* 業務担当リスト */
+  .task-row {
+    display: flex;
+    gap: 4px;
+    padding: 2px 0;
+    border-bottom: 1px dashed #eee;
+    align-items: baseline;
+  }
+  .task-row:last-child { border-bottom: none; }
+  .task-label { min-width: 140px; font-weight: bold; }
+
+  /* 注記 */
+  .note {
+    font-size: 9px;
+    color: #666;
+    margin-top: 3px;
+  }
+
+  /* フッター */
+  .footer {
+    border-top: 1px solid #ccc;
+    margin-top: 10px;
+    padding-top: 4px;
+    font-size: 9px;
+    color: #999;
+    text-align: right;
+  }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .page { box-shadow: none; padding: 8mm 10mm; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ヘッダー -->
+  <div class="header">
+    <h1>BS業務　現状概要</h1>
+    <div class="meta">
+      作成日：2026年3月18日　／　作成者：戸田
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <!-- 1. 体制 -->
+    <div class="card span-1">
+      <div class="card-header navy">① 現行体制</div>
+      <div class="card-body">
+        <table>
+          <tr><th>区分</th><th>人員</th></tr>
+          <tr><td>平日</td><td><strong>2名</strong>（.com担当 / 楽天担当）</td></tr>
+          <tr><td>土日祝</td><td><strong>1名</strong>（ワンオペ）</td></tr>
+        </table>
+        <p class="note">※土日祝は卸引当なし（一部あり）</p>
+      </div>
+    </div>
+
+    <!-- 2. .com業務内容 -->
+    <div class="card span-2">
+      <div class="card-header green">② .com担当　業務内容</div>
+      <div class="card-body">
+        <div class="task-row"><span class="task-label">引当（当日）</span><span>下記タイムスケジュールに従い、プラン・配送区分ごとに処理</span></div>
+        <div class="task-row"><span class="task-label">引当（翌日）</span><span>16:00〜17:00頃、依頼が来たタイミングで処理</span></div>
+        <div class="task-row"><span class="task-label">引当（卸）</span><span>DNSBの引当日 当日〜+2日分。+2日以上は依頼時のみ対応</span></div>
+        <div class="task-row"><span class="task-label">引当（緊急）</span><span>メール依頼受信後、デリバリー作成 → 引当</span></div>
+        <div class="task-row"><span class="task-label">コンソリデータ管理</span><span>配送関連データの格納・関係各所への共有</span></div>
+        <div class="task-row"><span class="task-label">欠品対応</span><span>下記フロー参照</span></div>
+      </div>
+    </div>
+
+    <!-- 3. 引当タイムスケジュール -->
+    <div class="card span-2">
+      <div class="card-header green">③ .com担当　引当タイムスケジュール（当日分）</div>
+      <div class="card-body">
+        <table>
+          <tr>
+            <th>プラン / 便</th>
+            <th>9:00</th><th>12:30</th><th>13:30</th><th>15:00</th><th>15:30</th>
+          </tr>
+          <tr><td>デジタル Same</td><td class="num">3</td><td class="num">1</td><td class="num">1</td><td class="na">×</td><td class="na">×</td></tr>
+          <tr><td>Next</td><td class="num">4</td><td class="num">2</td><td class="na">×</td><td class="num">1</td><td class="num">1</td></tr>
+          <tr><td>指定日 関西</td><td class="num">1</td><td class="num">3</td><td class="na">×</td><td class="num">2</td><td class="na">×</td></tr>
+          <tr><td>指定日 九州</td><td class="num">5</td><td class="na">×</td><td class="na">×</td><td class="na">—</td><td class="na">—</td></tr>
+          <tr><td>2:30 関西</td><td class="num">2</td><td class="num">4</td><td class="na">×</td><td class="na">×</td><td class="na">×</td></tr>
+          <tr><td>2:30 九州</td><td class="num">6</td><td class="na">×</td><td class="na">×</td><td class="na">—</td><td class="na">—</td></tr>
+        </table>
+        <p class="note">数字＝引当順序　×＝引当なし　／　2:30便は9:00引当後、住所修正完了次第 再引当（関西は〜10:00）</p>
+      </div>
+    </div>
+
+    <!-- 4. 楽天業務内容 -->
+    <div class="card span-1">
+      <div class="card-header orange">④ 楽天担当　業務内容</div>
+      <div class="card-body">
+        <div class="task-row"><span class="task-label">SAP確認</span><span>朝・昼後・終業前（17:00頃）の3回</span></div>
+        <div class="task-row"><span class="task-label">楽天引当</span><span>朝1回</span></div>
+        <div class="task-row"><span class="task-label">メール対応</span><span>住所変更ほか（随時）</span></div>
+        <div class="task-row"><span class="task-label">キャンセル処理</span><span>随時</span></div>
+        <div class="task-row"><span class="task-label">DN作成（STO）</span><span>STO案件のDelivery Note作成</span></div>
+        <div class="task-row"><span class="task-label">SOLデータ共有</span><span>楽天売上情報の作成・共有</span></div>
+        <div class="task-row"><span class="task-label">欠品対応</span><span>下記フロー参照</span></div>
+      </div>
+    </div>
+
+    <!-- 5. 楽天朝フロー + 欠品フロー -->
+    <div class="card span-2">
+      <div class="card-header orange">⑤ 楽天担当　朝業務フロー</div>
+      <div class="card-body">
+        <div class="flow">
+          <div class="flow-step">① SAP確認<br><span style="font-size:9px;color:#666">ONE↔SAP連携／データ作成確認</span></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">② 欠品対応<br><span style="font-size:9px;color:#666">引当前に欠品オーダー確認</span></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">③ 楽天引当<br><span style="font-size:9px;color:#666">朝1回</span></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">④ メール対応<br>キャンセル処理（随時）</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card span-1">
+      <div class="card-header red">⑥ 欠品発生時の対応フロー</div>
+      <div class="card-body">
+        <div class="flow" style="flex-direction:column; align-items:flex-start; gap:3px;">
+          <div class="flow-step" style="width:100%">① 欠品オーダーを確認</div>
+          <div class="flow-arrow" style="padding-left:8px;">↓</div>
+          <div class="flow-step" style="width:100%">② NIKEのOMチームに連絡</div>
+          <div class="flow-arrow" style="padding-left:8px;">↓</div>
+          <div class="flow-step" style="width:100%">③ OMOBOキャンセル or 他DC在庫確認を依頼</div>
+          <div class="flow-arrow" style="padding-left:8px;">↓</div>
+          <div class="flow-step" style="width:100%">④ OMチームの回答をもとに処理完了</div>
+        </div>
+        <p class="note">※.com・楽天 双方で共通フロー</p>
+      </div>
+    </div>
+
+    <!-- 6. 1日の業務フロー -->
+    <div class="card span-2">
+      <div class="card-header navy">⑦ 1日の業務フロー（平日・2名体制）</div>
+      <div class="card-body">
+        <table>
+          <tr><th>時間帯</th><th>.com担当</th><th>楽天担当</th></tr>
+          <tr><td>業務開始〜9:00</td><td class="na">—</td><td>SAP確認 → 欠品対応 → 楽天引当</td></tr>
+          <tr><td>9:00</td><td>引当（関西①・2:30関西②・Same③・Next④・九州⑤・2:30九州⑥）</td><td>メール・キャンセル処理（随時）</td></tr>
+          <tr><td>〜10:00</td><td>2:30関西 再引当</td><td>同上</td></tr>
+          <tr><td>12:30</td><td>引当（Same①・Next②・関西③・2:30関西④）</td><td>昼後 SAP確認</td></tr>
+          <tr><td>13:30</td><td>引当（Same①）</td><td>メール・キャンセル処理（随時）</td></tr>
+          <tr><td>15:00</td><td>引当（Next①・関西②）</td><td>同上</td></tr>
+          <tr><td>15:30</td><td>引当（Next①）</td><td>同上</td></tr>
+          <tr><td>16:00〜17:00</td><td>引当（翌日分）※依頼時</td><td>業務終了前 SAP確認</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- 7. 未整理事項 -->
+    <div class="card span-1">
+      <div class="card-header red">⑧ 現状の未整理事項</div>
+      <div class="card-body">
+        <ul class="issue-list">
+          <li><span class="issue-num">①</span>メール対応の種類・手順</li>
+          <li><span class="issue-num">②</span>欠品エスカレーションフロー詳細</li>
+          <li><span class="issue-num">③</span>コンソリデータの格納先・共有先</li>
+          <li><span class="issue-num">④</span>SOLデータの内容・共有フロー</li>
+          <li><span class="issue-num">⑤</span>STOの定義・DN作成手順</li>
+          <li><span class="issue-num">⑥</span>土日の卸引当「一部あり」の条件</li>
+          <li><span class="issue-num">⑦</span>緊急時エスカレーション先</li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- /grid -->
+
+  <div class="footer">作成：戸田　／　BS業務 現状概要　2026.03.18</div>
+
+</div><!-- /page -->
+</body>
+</html>
